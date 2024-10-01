@@ -1,4 +1,12 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    domains: ["assets.coingecko.com", "cryptologos.cc", "files.alvara.xyz"],
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+}
 
-export default nextConfig;
+export default nextConfig
