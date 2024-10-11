@@ -34,7 +34,7 @@ bot.use(session());
 bot.use(stage.middleware());
 
 bot.command("start", (ctx) => {
-  const message = `Welcome to the XChain-BTS-Investment Bot!`;
+  const message = `Welcome to the CrossChain-Investments Bot!`;
   const importWalletButton = createCallBackBtn(
     "Import Wallet",
     "import-wallet"
