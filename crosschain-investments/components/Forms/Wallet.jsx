@@ -9,9 +9,9 @@ import { Plus } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 import { MultiSelect } from "@/components/ui/multi-select"
-import { useCircleContext } from '@/app/hooks/circle'
+import { useCircleContext } from '@/hooks/circle'
 
 const schema = z.object({
   blockchains: z.array(z.string()).min(1, { message: 'Please select blockchains.' })

@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from "lucide-react"
 
-import { useAuthContext } from '@/app/hooks/auth'
+import { useAuthContext } from '@/hooks/auth'
 
 /**
  * HOC for page that should only be accessible by authenticated/logged-in user only

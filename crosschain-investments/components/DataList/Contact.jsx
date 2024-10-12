@@ -1,4 +1,3 @@
-import { List, Title, Text } from '@mantine/core'
 
 export function ContactList ({ contacts }) {
   return (

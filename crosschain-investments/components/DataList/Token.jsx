@@ -1,8 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { useGetWalletBalances } from '@/app/hooks/wallets'
-import { TransferForm } from '@/app/components/Forms'
+import { useGetWalletBalances } from '@/hooks/wallets'
+import { TransferForm } from '@/components/Forms'
 import { Send } from "lucide-react"
 import { useState } from 'react'
 

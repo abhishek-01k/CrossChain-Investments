@@ -8,8 +8,8 @@ import { X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { useToast } from "@/components/ui/use-toast"
-import { useCircleContext } from '@/app/hooks/circle'
+import { useToast } from "@/hooks/use-toast"
+import { useCircleContext } from '@/hooks/circle'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { AddressInput } from './Input/AddressInput'

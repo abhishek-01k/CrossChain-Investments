@@ -2,8 +2,8 @@
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useState } from 'react'
-import { useListContacts } from '@/app/hooks/contacts'
-import { useAuthContext } from '@/app/hooks/auth'
+import { useListContacts } from '@/hooks/contacts'
+import { useAuthContext } from '@/hooks/auth'
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command"
