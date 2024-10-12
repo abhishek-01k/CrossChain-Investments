@@ -3,15 +3,15 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useForm } from '@mantine/form'
-import { zodResolver } from 'mantine-form-zod-resolver'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { AnonOnly, FacebookButton } from '@/app/components/Auth'
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 
 const schema = z
   .object({
@@ -31,22 +31,22 @@ const schema = z
 
 export default function Register () {
   const form = useForm({
-    initialValues: {
+    resolver: zodResolver(schema),
+    defaultValues: {
       email: '',
       password: '',
       passwordConfirmation: ''
-    },
-    validate: zodResolver(schema)
+    }
   })
   const router = useRouter()
   const supabase = createClientComponentClient()
   const { toast } = useToast()
 
-  const handleRegister = async ({ email, password }) => {
+  const handleRegister = async (data) => {
     try {
       const { error } = await supabase.auth.signUp({
-        email,
-        password
+        email: data.email,
+        password: data.password
       })
       if (error) {
         throw new Error(error.message)
@@ -64,40 +64,50 @@ export default function Register () {
   return (
     <AnonOnly>
       <div className="max-w-sm mx-auto mt-[25vh]">
-        <form onSubmit={form.onSubmit(handleRegister)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              required
-              {...form.getInputProps('email')}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleRegister)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              required
-              {...form.getInputProps('password')}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="passwordConfirmation">Confirm Password</Label>
-            <Input
-              id="passwordConfirmation"
-              type="password"
-              required
-              {...form.getInputProps('passwordConfirmation')}
+            <FormField
+              control={form.control}
+              name="passwordConfirmation"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="flex justify-end">
-            <Button type="submit">
-              Register
-            </Button>
-          </div>
-        </form>
+            <Button type="submit">Register</Button>
+          </form>
+        </Form>
         <FacebookButton />
         <p className="text-center mt-4">
           Already have an account?{' '}

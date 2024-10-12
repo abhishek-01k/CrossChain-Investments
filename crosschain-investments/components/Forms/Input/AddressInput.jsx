@@ -2,75 +2,69 @@
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useState } from 'react'
-import { Combobox, InputBase, useCombobox, Loader } from '@mantine/core'
 import { useListContacts } from '@/app/hooks/contacts'
 import { useAuthContext } from '@/app/hooks/auth'
+import { Input } from "@/components/ui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command"
+import { Loader2 } from "lucide-react"
 
 export function AddressInput ({ onBlur, onChange, ...props }) {
   const supabase = createClientComponentClient()
   const { user } = useAuthContext()
-  const combobox = useCombobox({
-    onDropdownClose: () => combobox.resetSelectedOption()
-  })
 
   const { data, isLoading } = useListContacts(supabase, user?.id)
-  const [value, setValue] = useState(null)
-  const [search, setSearch] = useState('')
+  const [value, setValue] = useState('')
+  const [open, setOpen] = useState(false)
 
-  const exactOptionMatch = data?.some((item) => item.name.toLowerCase() === (search.name || search).toLowerCase().trim())
-  const filteredOptions = data?.filter((item) => item.name.toLowerCase().includes((search.name || search).toLowerCase().trim()))
-
-  const options = filteredOptions.map((item) => (
-    <Combobox.Option value={item} key={item.address}>
-      {item.name}
-    </Combobox.Option>
-  ))
+  const filteredOptions = data?.filter((item) => 
+    item.name.toLowerCase().includes(value.toLowerCase()) ||
+    item.address.toLowerCase().includes(value.toLowerCase())
+  ) || []
 
   return (
-    <Combobox
-      store={combobox}
-      withinPortal={false}
-      onOptionSubmit={(val) => {
-        if (val === '$custom') {
-          setValue({ name: search, address: search })
-        } else {
-          setValue(val)
-          setSearch(val)
-        }
-        combobox.closeDropdown()
-      }}
-    >
-      <Combobox.Target>
-        <InputBase
-          rightSection={isLoading ? <Loader size={18} /> : <Combobox.Chevron />}
-          placeholder="Search value"
-          rightSectionPointerEvents="none"
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Input
           {...props}
-          value={search.name || search}
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value)
+            onChange(e.target.value)
+          }}
           onBlur={() => {
-            combobox.closeDropdown()
-            setSearch(value?.name || value || '')
-            onChange(value?.address || '')
+            setOpen(false)
             onBlur()
           }}
-          onChange={(event) => {
-            combobox.openDropdown()
-            combobox.updateSelectedOptionIndex()
-            setSearch(event.currentTarget.value)
-          }}
-          onClick={() => combobox.openDropdown()}
-          onFocus={() => combobox.openDropdown()}
+          onClick={() => setOpen(true)}
         />
-      </Combobox.Target>
-
-      <Combobox.Dropdown>
-        <Combobox.Options>
-          {options}
-          {!exactOptionMatch && search.trim().length > 0 && (
-            <Combobox.Option value="$custom">{search}</Combobox.Option>
-          )}
-        </Combobox.Options>
-      </Combobox.Dropdown>
-    </Combobox>
+      </PopoverTrigger>
+      <PopoverContent className="p-0" align="start">
+        <Command>
+          <CommandInput placeholder="Search address..." />
+          <CommandEmpty>No address found.</CommandEmpty>
+          <CommandGroup>
+            {isLoading ? (
+              <div className="flex items-center justify-center p-2">
+                <Loader2 className="h-4 w-4 animate-spin" />
+              </div>
+            ) : (
+              filteredOptions.map((item) => (
+                <CommandItem
+                  key={item.address}
+                  onSelect={() => {
+                    setValue(item.address)
+                    onChange(item.address)
+                    setOpen(false)
+                  }}
+                >
+                  {item.name} ({item.address})
+                </CommandItem>
+              ))
+            )}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
   )
 }

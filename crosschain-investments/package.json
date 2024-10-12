@@ -14,7 +14,10 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
   },
   "dependencies": {
+    "@circle-fin/user-controlled-wallets": "^3.0.0",
+    "@circle-fin/w3s-pw-web-sdk": "^1.0.10",
     "@metamask/sdk": "^0.27.0",
+    "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -26,6 +29,10 @@
     "@radix-ui/react-slider": "^1.2.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.2",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/supabase-js": "^2.43.0",
+    "@tanstack/react-query": "^5.32.1",
     "@wormhole-foundation/sdk": "^0.10.2",
     "@wormhole-foundation/wormhole-connect": "^0.3.19",
     "apexcharts": "^3.44.2",
@@ -59,12 +66,7 @@
     "telegram-login-button": "^0.1.0",
     "thirdweb": "^5.37.0",
     "utf-8-validate": "^6.0.4",
-    "@circle-fin/user-controlled-wallets": "^3.0.0",
-    "@circle-fin/w3s-pw-web-sdk": "^1.0.10",
-    "@supabase/auth-helpers-nextjs": "^0.10.0",
-    "@supabase/supabase-js": "^2.43.0",
-    "zod": "^3.23.5",
-    "@tanstack/react-query": "^5.32.1"
+    "zod": "^3.23.5"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^3.7.2",

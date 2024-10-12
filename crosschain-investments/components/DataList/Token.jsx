@@ -4,10 +4,13 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { useGetWalletBalances } from '@/app/hooks/wallets'
 import { TransferForm } from '@/app/components/Forms'
 import { Send } from "lucide-react"
-import { useDisclosure } from '@mantine/hooks'
+import { useState } from 'react'
 
 export function TokenCard ({ tokenBalance, walletId }) {
-  const [opened, { open, close }] = useDisclosure(false)
+  const [opened, setOpened] = useState(false)
+  const open = () => setOpened(true)
+  const close = () => setOpened(false)
+
   return (
     <Card className="min-w-[350px] h-[250px] self-stretch">
       <CardContent className="p-6">

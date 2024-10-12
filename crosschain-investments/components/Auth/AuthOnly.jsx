@@ -1,8 +1,8 @@
 'use client'
 
-import { Stack, Loader } from '@mantine/core'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { Loader2 } from "lucide-react"
 
 import { useAuthContext } from '@/app/hooks/auth'
 
@@ -26,9 +26,9 @@ export function AuthOnly ({ children }) {
    */
   if (isLoading || !user) {
     return (
-      <Stack align="center" justify="center" h="100%">
-        <Loader size={50} />
-      </Stack>
+      <div className="flex items-center justify-center h-full">
+        <Loader2 className="h-12 w-12 animate-spin" />
+      </div>
     )
   }
 

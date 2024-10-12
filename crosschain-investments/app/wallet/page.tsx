@@ -4,14 +4,14 @@ import { useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Settings, Users, Wallet } from "lucide-react"
 
-import { AuthOnly } from '@/app/components/Auth'
-import { useListWallets } from '@/app/hooks/wallets'
-import { useCircleContext } from '@/app/hooks/circle'
-import { ContactList, TokenCards } from '@/app/components/DataList'
-import { ContactForm } from '@/app/components/Forms'
-import { useListContacts } from '@/app/hooks/contacts'
-import { WalletForm } from './components/Forms/Wallet'
-import { useAuthContext } from './hooks/auth'
+import { AuthOnly } from '../../components/Auth/AuthOnly'
+import { useListWallets } from '@/hooks/wallets'
+import { useCircleContext } from '@/hooks/circle'
+import { ContactList, TokenCards } from '@/components/DataList'
+import { ContactForm } from '@/components/Forms'
+import { useListContacts } from '@/hooks/contacts'
+import { WalletForm } from '@/components/Forms/Wallet'
+import { useAuthContext } from '@/hooks/auth'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
