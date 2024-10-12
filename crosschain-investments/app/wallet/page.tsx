@@ -74,74 +74,76 @@ export default function Page() {
 
   return (
     <AuthOnly>
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full">
-        <TabsContent value="contacts" className="h-[calc(100%-50px)] relative">
-          {isLoadingContacts ? (
-            <div className="flex items-center justify-center h-full">Loading...</div>
-          ) : (
-            <>
-              <ContactList contacts={contacts} />
-              <ContactForm />
-            </>
-          )}
-        </TabsContent>
-        <TabsContent value="wallets" className="h-[calc(100%-50px)] relative">
-          {isLoading ? (
-            <div className="flex items-center justify-center h-full">Loading...</div>
-          ) : (
-            <>
-              <Accordion type="single" collapsible className="w-full">
-                {(data?.wallets || []).map((item) => (
-                  <AccordionItem key={item.id} value={item.id}>
-                    <AccordionTrigger className="flex items-center">
-                      <Wallet className="mr-2 h-4 w-4" />
-                      {item.address}
-                      <Badge variant="secondary" className="ml-2">{item.blockchain}</Badge>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <TokenCards walletId={item.id} />
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-              <WalletForm createUserPin={!data?.wallets?.length} />
-            </>
-          )}
-        </TabsContent>
-        <TabsContent value="settings" className="h-[calc(100%-50px)]">
-          {isLoading ? (
-            <div className="flex items-center justify-center h-full">Loading...</div>
-          ) : data?.wallets?.length ? (
-            <ul className="divide-y divide-gray-200">
-              <li className="py-2 px-4 cursor-pointer hover:bg-gray-50" onClick={handleUpdatePin}>
-                Update PIN
-              </li>
-              <li className="py-2 px-4 cursor-pointer hover:bg-gray-50" onClick={handleRestorePin}>
-                Forgot PIN
-              </li>
-            </ul>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full">
-              <h4 className="text-lg font-semibold">Create wallet to get started!</h4>
-            </div>
-          )}
-        </TabsContent>
+      <div className="p-4 md:p-6 lg:p-8 max-w-4xl mx-auto">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full">
+          <TabsContent value="contacts" className="h-[calc(100vh-130px)] relative overflow-y-auto">
+            {isLoadingContacts ? (
+              <div className="flex items-center justify-center h-full">Loading...</div>
+            ) : (
+              <>
+                <ContactList contacts={contacts} />
+                <ContactForm />
+              </>
+            )}
+          </TabsContent>
+          <TabsContent value="wallets" className="h-[calc(100vh-130px)] relative overflow-y-auto">
+            {isLoading ? (
+              <div className="flex items-center justify-center h-full">Loading...</div>
+            ) : (
+              <>
+                <Accordion type="single" collapsible className="w-full">
+                  {(data?.wallets || []).map((item) => (
+                    <AccordionItem key={item.id} value={item.id}>
+                      <AccordionTrigger className="flex items-center">
+                        <Wallet className="mr-2 h-4 w-4" />
+                        {item.address}
+                        <Badge variant="secondary" className="ml-2">{item.blockchain}</Badge>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <TokenCards walletId={item.id} />
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+                <WalletForm createUserPin={!data?.wallets?.length} />
+              </>
+            )}
+          </TabsContent>
+          <TabsContent value="settings" className="h-[calc(100vh-130px)] overflow-y-auto">
+            {isLoading ? (
+              <div className="flex items-center justify-center h-full">Loading...</div>
+            ) : data?.wallets?.length ? (
+              <ul className="divide-y divide-gray-200">
+                <li className="py-2 px-4 cursor-pointer hover:bg-gray-50" onClick={handleUpdatePin}>
+                  Update PIN
+                </li>
+                <li className="py-2 px-4 cursor-pointer hover:bg-gray-50" onClick={handleRestorePin}>
+                  Forgot PIN
+                </li>
+              </ul>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full">
+                <h4 className="text-lg font-semibold">Create wallet to get started!</h4>
+              </div>
+            )}
+          </TabsContent>
 
-        <TabsList className="fixed bottom-0 left-0 right-0">
-          <TabsTrigger value="contacts" className="flex-1">
-            <Users className="mr-2 h-4 w-4" />
-            Contacts
-          </TabsTrigger>
-          <TabsTrigger value="wallets" className="flex-1">
-            <Wallet className="mr-2 h-4 w-4" />
-            Wallets
-          </TabsTrigger>
-          <TabsTrigger value="settings" className="flex-1">
-            <Settings className="mr-2 h-4 w-4" />
-            Settings
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
+          <TabsList className="fixed bottom-0 left-0 right-0">
+            <TabsTrigger value="contacts" className="flex-1">
+              <Users className="mr-2 h-4 w-4" />
+              Contacts
+            </TabsTrigger>
+            <TabsTrigger value="wallets" className="flex-1">
+              <Wallet className="mr-2 h-4 w-4" />
+              Wallets
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="flex-1">
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
     </AuthOnly>
   )
 }

@@ -3,8 +3,8 @@ import { title } from "process"
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Alvara Xchain Investments",
-  description: "Investment Strategies for the Future powered by AI",
+  name: "CrossChain Investments",
+  description: "Investment Strategies for the Investors powered by AI",
   mainNav: [
     {
       title : "Explore",
