@@ -30,6 +30,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import CrossChainDeposit from "@/components/deposit/CrossChainDeposit"
 
 type Investment = {
   percentage: number
@@ -160,7 +161,7 @@ const StrategyPage = ({ strategy, bts }) => {
       <div>
         <div className="mb-4 ml-12 flex flex-row items-center justify-end gap-1.5">
           <p className="max-w-[700px] text-lg text-muted-foreground">
-            Enter Amount (in ETH)
+            Enter Amount
           </p>
           <Input
             id="Funds"
@@ -247,7 +248,7 @@ const StrategyPage = ({ strategy, bts }) => {
           </TableBody>
         </Table>
       </div>
-      <div className="flex flex-col justify-center justify-self-center items-center pt-4">
+      <div className="flex flex-col items-center justify-center justify-self-center pt-4">
         <div>
           <Button
             size="lg"
@@ -269,6 +270,8 @@ const StrategyPage = ({ strategy, bts }) => {
           </Button>
         </div>
       </div>
+
+      <CrossChainDeposit investAmount={investAmount} />
     </div>
   )
 }
