@@ -11,8 +11,8 @@ export const siteConfig = {
       href: "/getstarted",
     },
     {
-      title: "Alva Chart",
-      href: "/charts",
+      title: "Circle Wallet",
+      href: "/wallet",
     },
     {
       title: "Portfolio",

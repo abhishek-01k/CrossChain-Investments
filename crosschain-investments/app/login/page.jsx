@@ -3,17 +3,25 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useForm } from '@mantine/form'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
-import { AnonOnly, FacebookButton } from '@/app/components/Auth'
+import { AnonOnly, FacebookButton } from '@/components/Auth'
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+
+const schema = z.object({
+  email: z.string().email({ message: 'Invalid email' }),
+  password: z.string().min(1, { message: 'Password is required' })
+})
 
 export default function Login () {
   const form = useForm({
-    initialValues: {
+    resolver: zodResolver(schema),
+    defaultValues: {
       email: '',
       password: ''
     }
@@ -22,10 +30,10 @@ export default function Login () {
   const supabase = createClientComponentClient()
   const { toast } = useToast()
 
-  const handleLogin = async ({ email, password }) => {
+  const handleLogin = async (data) => {
     const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password
+      email: data.email,
+      password: data.password
     })
     if (error) {
       toast({
@@ -33,34 +41,47 @@ export default function Login () {
         title: "Error logging in",
         description: error.message,
       })
+    } else {
+      router.refresh()
     }
-    router.refresh()
   }
 
   return (
     <AnonOnly>
       <div className="max-w-sm mx-auto mt-[30vh]">
-        <form onSubmit={form.onSubmit(handleLogin)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              {...form.getInputProps('email')}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              {...form.getInputProps('password')}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="flex justify-end">
-            <Button type="submit">Login</Button>
-          </div>
-        </form>
+            <div className="flex justify-end">
+              <Button type="submit">Login</Button>
+            </div>
+          </form>
+        </Form>
         <FacebookButton />
         <p className="text-center mt-4">
           Don&apos;t have an account?{' '}

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { circleClient, createUserToken } from '@/app/lib/circle'
+import { circleClient, createUserToken } from '@/lib/circle'
 
 export async function POST (request, { params }) {
   const { id: walletId, destination: destinationAddress } = params

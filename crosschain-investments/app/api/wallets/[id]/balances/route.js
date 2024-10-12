@@ -1,4 +1,4 @@
-import { circleClient, createUserToken } from '@/app/lib/circle'
+import { circleClient, createUserToken } from '@/lib/circle'
 import { NextResponse } from 'next/server'
 
 export async function GET (req, { params }) {

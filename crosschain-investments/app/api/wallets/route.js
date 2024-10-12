@@ -1,11 +1,13 @@
-import { circleClient, createUserToken } from '@/app/lib/circle'
+import { circleClient, createUserToken } from '@/lib/circle'
 import { NextResponse } from 'next/server'
 
 export async function POST (req) {
   const { userId, userToken, encryptionKey } = await createUserToken()
   const { createUserPin, blockchains } = await req.json()
 
-  const method = createUserPin ? 'createUserPinWithWallets' : 'createWallet'
+  const method = createUserPin ? 'createUserPinWithWallets' : 'createWallet';
+
+  console.log(method);
   const { data: { challengeId } } = await circleClient[method]({
     userId,
     blockchains,
