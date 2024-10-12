@@ -1,5 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import CCTPTransfer from "../cctp/page";
 import { MetaMaskSDK, SDKProvider } from "@metamask/sdk";
 import {
   Chain,
@@ -21,7 +24,7 @@ import evm from "@wormhole-foundation/sdk/evm";
 import solana from "@wormhole-foundation/sdk/solana";
 import algorand from "@wormhole-foundation/sdk/algorand";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { MetaMaskSigner } from "./metamask";
 import { PhantomProvider, PhantomSigner } from "./phantom";
@@ -30,13 +33,42 @@ import Image from "next/image";
 const msk = new MetaMaskSDK(
   {
     dappMetadata: {
-        name: "XChain BTS Funds Investment",
-        url: "https://bts.vercel.app",
+        name: "CrossChain Investment",
+        url: "https://cross-chain-investments.vercel.app",
     },
   }
 );
 
-export default function Home() {
+export default function BridgePage() {
+  const [bridgeType, setBridgeType] = useState("wormhole");
+
+  return (
+    <div className="min-h-screen bg-[#14151a] text-white flex flex-col items-center justify-start p-4">
+      <div className="w-full max-w-md mb-8">
+        <Label htmlFor="bridgeType" className="text-sm font-medium text-gray-400 mb-2">Select Bridge Type</Label>
+        <Select value={bridgeType} onValueChange={setBridgeType}>
+          <SelectTrigger id="bridgeType">
+            <SelectValue placeholder="Select bridge type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="wormhole">Wormhole</SelectItem>
+            <SelectItem value="cctp">Circle CCTP</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {bridgeType === "wormhole" ? (
+        <div className="w-full max-w-md bg-[#1e1f25] rounded-lg p-4 space-y-4">
+          <WormholeBridge />
+        </div>
+      ) : (
+        <CCTPTransfer />
+      )}
+    </div>
+  );
+}
+
+function WormholeBridge() {
   const NETWORK = "Testnet";
 
   const [evmProvider, setEvmProvider] = useState<SDKProvider | null>(null);
@@ -137,20 +169,18 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-[#14151a] text-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-[#1e1f25] rounded-lg p-4 space-y-4">
-        <FromSection srcChain={srcChain} setSrcChain={setSrcChain} getAddresses={getAddresses} />
-        <ToSection dstChain={dstChain} setDstChain={setDstChain} getAddresses={getAddresses} />
-        <RouteSection start={start} finish={finish} srcTxIds={srcTxIds} attestations={attestations} />
-        <TransferDetailsCard
-          details={transferDetails}
-          attestations={attestations}
-          srcTxIds={srcTxIds}
-          dstTxIds={dstTxIds}
-        />
-      </div>
-    </div>
-  )
+    <>
+      <FromSection srcChain={srcChain} setSrcChain={setSrcChain} getAddresses={getAddresses} />
+      <ToSection dstChain={dstChain} setDstChain={setDstChain} getAddresses={getAddresses} />
+      <RouteSection start={start} finish={finish} srcTxIds={srcTxIds} attestations={attestations} />
+      <TransferDetailsCard
+        details={transferDetails}
+        attestations={attestations}
+        srcTxIds={srcTxIds}
+        dstTxIds={dstTxIds}
+      />
+    </>
+  );
 }
 
 interface SectionProps {
