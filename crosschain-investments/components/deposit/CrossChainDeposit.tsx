@@ -52,7 +52,7 @@ const CrossChainDeposit = ({ investAmount }: { investAmount: string }) => {
   }
 
   const circle = new Circle(
-    "SAND_API_KEY:436e7011899218356acf1f997a707f31:c1664db6c444b26cf5b69f6af8c49d2c",
+    process.env.NEXT_PUBLIC_CIRCLE_SANDBOX_API_KEY!,
     CircleEnvironments.sandbox
   )
 
@@ -140,7 +140,7 @@ const CrossChainDeposit = ({ investAmount }: { investAmount: string }) => {
       const res = await fetch(url, {
         method: "GET",
         headers: {
-          Authorization: `Bearer SAND_API_KEY:436e7011899218356acf1f997a707f31:c1664db6c444b26cf5b69f6af8c49d2c`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_CIRCLE_SANDBOX_API_KEY}`,
         },
       })
 
@@ -199,7 +199,7 @@ const CrossChainDeposit = ({ investAmount }: { investAmount: string }) => {
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer SAND_API_KEY:436e7011899218356acf1f997a707f31:c1664db6c444b26cf5b69f6af8c49d2c`,
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_CIRCLE_SANDBOX_API_KEY}`,
           },
           body: JSON.stringify(PaymentBody),
         }
